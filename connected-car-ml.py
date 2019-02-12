@@ -84,12 +84,13 @@ print "theOne: ", theOne[0]    #Row(vin=u'2HMDJJFB2JJ000017', prediction=1.0)
 if ( theOne[0]['prediction'] == 1.0 ) :
  print "YES"
 
-## 2. Save to Messages Table
-from pyspark.sql import Row
+ print "Something Else"
+ ## 2. Save to Messages Table
+ from pyspark.sql import Row
 
-messages = [("99","2HMDJJFB2JJ000017", "12-13-2019", "Engine Status: HEALTHY", "0")]
-rows = sc.parallelize(messages).map(lambda p: Row(_id=p[0], vin=p[1], date=p[2], message=p[3], severity=p[4]))
-dataframe = spark.createDataFrame(rows)
-dataframe.show()
+ messages = [("99","2HMDJJFB2JJ000017", "02-13-2019", "Engine Status: OVERHEATING", "1")]
+ rows = sc.parallelize(messages).map(lambda p: Row(_id=p[0], vin=p[1], date=p[2], message=p[3], severity=p[4]))
+ dataframe = spark.createDataFrame(rows)
+ dataframe.show()
 
-spark.saveToMapRDB(dataframe, "/obd/obd_messages", create_table=False)
+ spark.saveToMapRDB(dataframe, "/obd/obd_messages", create_table=False)
